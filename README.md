@@ -134,12 +134,21 @@ Once your EC2 instance is running:
 
 9. **Add Post-Build Actions**:
    - Configure post-build actions to archive build artifacts.
+![image](https://github.com/user-attachments/assets/3e08fe0d-a18f-49b3-bee4-bc5aad928d93)
+
+we have now configured an automated Jenkins job that receives files from GitHub by webhook trigger (this method is considered as 'push' because the changes are being 'pushed' and files transfer is initiated by GitHub) By default, the artifacts are stored on Jenkins server locally
+```
+ls -lrt /var/lib/jenkins/jobs/tooling/builds/3/archive/
+```
+![image](https://github.com/user-attachments/assets/b792927e-1de3-4fed-80a2-22791b83874e)
+
 
 #### 5. Configure Jenkins to Copy Files to NFS Server
 
 1. **Install "Publish Over SSH" Plugin**:
    - Go to "Manage Jenkins" > "Manage Plugins."
    - Search for "Publish Over SSH" in the "Available" tab and install it.
+![image](https://github.com/user-attachments/assets/08199c39-4625-4ec2-9cbb-f1906681ab13)
 
 2. **Configure SSH Plugin**:
    - Go to "Manage Jenkins" > "Configure System."
@@ -151,13 +160,15 @@ Once your EC2 instance is running:
 
 3. **Test Configuration**:
    - Use the test option to ensure connectivity.
+![image](https://github.com/user-attachments/assets/565f4101-66c1-4132-a05c-f6c50bffb337)
 
 4. **Update Job Configuration**:
    - In your Jenkins project configuration, add "Send build artifacts over SSH" under "Post-build Actions."
    - Configure it to send all files to the remote directory `/mnt/apps`.
+![image](https://github.com/user-attachments/assets/1c7d2e7f-936c-48f1-ab99-cf490e8f5e3b)
 
 5. **Set Permissions on NFS Server**:
-   ```bash
+   ```
    sudo chown -R ec2-user:ec2-user /mnt/apps
    sudo chmod -R 777 /mnt/apps
    ```
